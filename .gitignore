@@ -1,0 +1,4 @@
+checkpoints/
+data/loveda/
+__pycache__/
+*.pyc
