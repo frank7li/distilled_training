@@ -57,6 +57,17 @@ Distillation closed **~62% of the teacher-student gap** (+0.070 over supervised 
 
 ---
 
+
+### Experiment 4: Selective Teacher Refinement 
+A region is considered uncertain if its entropy exceeds a threshold τ
+| Quantile | mIoU | Time(s) | Time/img(s) |
+|----------|------|---------|-------------|
+| 0.9 | 0.4892 | 66.48 | 0.0398 |
+| 0.8 | 0.4905 | 73.63 | 0.0441 |
+| 0.7 | **0.4940** | 79.01 | 0.0473 |
+
+---
+
 ## Saved Weights
 
 | File | Model | Val mIoU |
@@ -65,16 +76,6 @@ Distillation closed **~62% of the teacher-student gap** (+0.070 over supervised 
 | `checkpoints/distill_best.pth` | Mask2Former + ResNet-18 (distilled) | 0.4855 |
 | `checkpoints/best.pth` | Mask2Former + ResNet-18 (supervised) | 0.4154 |
 
----
-
-## Next Steps: Selective Teacher Refinement
-
-Use the distilled student as a fast first-pass predictor and invoke the frozen Swin-S teacher only on uncertain regions — analogous to speculative decoding in LLMs.
-
-1. Run the **distilled student** on the full image → get semantic map + per-pixel uncertainty (entropy or max confidence)
-2. Identify uncertain patches (e.g., boundaries, small objects like Barren/Forest)
-3. Crop those patches and run the **frozen teacher** on them only
-4. Merge teacher predictions back into the student's output
 
 Load the weights for this:
 
