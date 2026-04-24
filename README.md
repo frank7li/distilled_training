@@ -68,6 +68,18 @@ A region is considered uncertain if its entropy exceeds a threshold τ
 
 ---
 
+### Inference Pipeline
+
+`pipeline.py` — end-to-end inference that takes an image, runs it through the distilled student model, and checks the mean per-pixel confidence. If confidence >= 0.25, the student prediction is kept; otherwise the image is forwarded to the Swin-S teacher and its prediction is used instead.
+
+```bash
+python pipeline.py --image path/to/image.png --save output.png
+```
+
+Threshold is configurable via `--threshold`. Across 20 validation samples with threshold=0.25, the student handled 40% of images on its own; the teacher was called for the remaining 60%, typically on more ambiguous mixed-class scenes.
+
+---
+
 ## Saved Weights
 
 | File | Model | Val mIoU |
